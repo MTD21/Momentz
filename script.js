@@ -36,3 +36,49 @@ lightbox.addEventListener('click', (e) => {
     lightbox.style.display = 'none';
   }
 });
+
+const slidesContainer = document.querySelector('.hero-slides');
+const slidesNodeList = document.querySelectorAll('.hero-slides .slide');
+let slides = Array.from(slidesNodeList);
+
+// Shuffle slides
+function shuffle(array) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
+// Apply shuffle
+slides = shuffle(slides);
+
+// Re-append shuffled slides
+slides.forEach(slide => slidesContainer.appendChild(slide));
+
+let current = 0;
+
+// Initialize first slide
+slides.forEach((slide, index) => {
+  slide.classList.remove('active', 'prev');
+  if (index === 0) slide.classList.add('active');
+});
+
+// Slide function
+function nextSlide() {
+  const prevSlide = current;
+  current = (current + 1) % slides.length;
+
+  slides[prevSlide].classList.remove('active');
+  slides[prevSlide].classList.add('prev'); // move left
+  slides[current].classList.add('active'); // move in from right
+
+  // Reset prev class after transition
+  setTimeout(() => {
+    slides[prevSlide].classList.remove('prev');
+  }, 1000); // matches CSS transition
+}
+
+// Start automatic carousel
+setInterval(nextSlide, 5000);
+
