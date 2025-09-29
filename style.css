@@ -41,6 +41,8 @@ body {
   object-fit: cover;
   transform: translateX(100%); /* off-screen right by default */
   transition: transform 1s ease-in-out;
+  object-fit: cover;
+  object-position: top left; /* align the image to top-left */
   z-index: 0;
 }
 
@@ -210,4 +212,3 @@ footer {
 
 .lightbox .prev { left: 20px; }
 .lightbox .next { right: 20px; }
-
