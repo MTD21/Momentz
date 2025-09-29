@@ -38,10 +38,9 @@ lightbox.addEventListener('click', (e) => {
 });
 
 const slidesContainer = document.querySelector('.hero-slides');
-const slidesNodeList = document.querySelectorAll('.hero-slides .slide');
-let slides = Array.from(slidesNodeList);
+let slides = Array.from(document.querySelectorAll('.hero-slides .slide'));
 
-// Shuffle slides
+// Shuffle slides once at start
 function shuffle(array) {
   for (let i = array.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -50,15 +49,12 @@ function shuffle(array) {
   return array;
 }
 
-// Apply shuffle
 slides = shuffle(slides);
-
-// Re-append shuffled slides
 slides.forEach(slide => slidesContainer.appendChild(slide));
 
 let current = 0;
 
-// Initialize first slide
+// Initialize slides: first slide active, rest default off-screen right
 slides.forEach((slide, index) => {
   slide.classList.remove('active', 'prev');
   if (index === 0) slide.classList.add('active');
@@ -66,19 +62,38 @@ slides.forEach((slide, index) => {
 
 // Slide function
 function nextSlide() {
-  const prevSlide = current;
+  const prev = current;
   current = (current + 1) % slides.length;
 
-  slides[prevSlide].classList.remove('active');
-  slides[prevSlide].classList.add('prev'); // move left
-  slides[current].classList.add('active'); // move in from right
+  slides[prev].classList.remove('active');
+  slides[prev].classList.add('prev');
 
-  // Reset prev class after transition
+  slides[current].classList.add('active');
+
   setTimeout(() => {
-    slides[prevSlide].classList.remove('prev');
+    slides[prev].classList.remove('prev');
   }, 1000); // matches CSS transition
 }
 
-// Start automatic carousel
-setInterval(nextSlide, 5000);
+// Carousel control
+let carouselInterval;
 
+function startCarousel() {
+  carouselInterval = setInterval(nextSlide, 5000);
+}
+
+function stopCarousel() {
+  clearInterval(carouselInterval);
+}
+
+// Pause carousel when tab is hidden
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) {
+    stopCarousel();
+  } else {
+    startCarousel();
+  }
+});
+
+// Start initially
+startCarousel();
