@@ -46,7 +46,7 @@ imageUrls.forEach((url, index) => {
   gallery.appendChild(card);
 });
 
-// === Hero Slideshow Logic ===
+// === Grab the slides AFTER they are created ===
 let slides = Array.from(document.querySelectorAll(".hero-slides .slide"));
 let current = 0;
 
@@ -62,6 +62,13 @@ function shuffle(array) {
 slides = shuffle(slides);
 slides.forEach(slide => slidesContainer.appendChild(slide));
 
+// Ensure first slide is active
+slides.forEach((slide, index) => {
+  slide.classList.remove("active", "prev");
+  if (index === 0) slide.classList.add("active");
+});
+
+// Carousel function
 function nextSlide() {
   const prev = current;
   current = (current + 1) % slides.length;
@@ -73,9 +80,10 @@ function nextSlide() {
 
   setTimeout(() => {
     slides[prev].classList.remove("prev");
-  }, 1000); // must match CSS transition
+  }, 1000); // match CSS transition
 }
 
+// Start automatic carousel
 let carouselInterval;
 function startCarousel() {
   carouselInterval = setInterval(nextSlide, 5000);
@@ -84,14 +92,12 @@ function stopCarousel() {
   clearInterval(carouselInterval);
 }
 
-// Pause slideshow on tab change
+// Pause carousel when tab is hidden
 document.addEventListener("visibilitychange", () => {
-  if (document.hidden) {
-    stopCarousel();
-  } else {
-    startCarousel();
-  }
+  if (document.hidden) stopCarousel();
+  else startCarousel();
 });
+
 startCarousel();
 
 // === Lightbox Logic ===

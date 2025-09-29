@@ -160,6 +160,14 @@ section h2::after {
   transition: transform 0.3s ease; /* smooth animation */
 }
 
+.info {
+  text-align: center;
+  margin-top: -40px;
+  margin-bottom: -100px;
+  font-size: 2rem;
+  letter-spacing: 2px;
+}
+
 .about {
   text-align: center; /* center all text inside About section */
 }
