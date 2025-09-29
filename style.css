@@ -71,12 +71,13 @@ body {
 }
 
 .hero h1 {
-  font-size: 3rem;
+  font-size: 5rem;
   letter-spacing: 2px;
+  margin-bottom: -20px; /* reduce space below heading */
 }
 .hero p {
-  font-size: 1.2rem;
-  margin-top: 10px;
+  font-size: 1.4rem;
+  margin-top: -20px;
 }
 
 /* Sections */
@@ -107,19 +108,50 @@ section h2::after {
 /* Portfolio */
 .gallery {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  grid-template-columns: repeat(4, minmax(300px, 1fr));
   gap: 20px;
+  max-width: calc(4 * 300px + 3 * 20px); /* ensures perfect centering */
+  margin: 0 auto; /* center gallery */
+  justify-content: center; /* make grid sit in the middle */
 }
+
+.gallery img {
+  width: 300px;   /* fixed width for consistency */
+  height: 178px;  /* keeps ~16:9 aspect ratio */
+  object-fit: cover;
+  border-radius: 8px; /* optional: round corners */
+}
+
+@media (max-width: 1200px) {
+  .gallery {
+    grid-template-columns: repeat(3, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 900px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(300px, 1fr));
+  }
+}
+
+@media (max-width: 600px) {
+  .gallery {
+    grid-template-columns: 1fr;
+  }
+}
+
 .card {
   background: #f4f4f4;
   border-radius: 10px;
   overflow: hidden;
   text-align: center;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-.card img {
-  width: 100%;
-  display: block;
+
+.card:hover {
+  transform: scale(1.05); /* enlarge whole card */
+  box-shadow: 0 8px 16px rgba(0,0,0,0.2); /* deeper shadow */
 }
 
 .card img {
@@ -128,12 +160,17 @@ section h2::after {
   transition: transform 0.3s ease; /* smooth animation */
 }
 
-.card img:hover {
-  transform: scale(1.05); /* makes image slightly bigger */
+.about {
+  text-align: center; /* center all text inside About section */
 }
 
-.card p {
-  padding: 0px;
+.about h2 {
+  margin-bottom: 20px;
+}
+
+.about p {
+  max-width: 800px; /* optional: limit line length for readability */
+  margin: 0 auto;   /* center paragraph block */
 }
 
 /* Contact */
@@ -166,8 +203,8 @@ section h2::after {
 /* Footer */
 footer {
   text-align: center;
-  padding: 20px;
-  background: #111;
+  padding: 15px;
+  background: #333;
   color: white;
 }
 
